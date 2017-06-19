@@ -205,6 +205,13 @@ void WriteFileOrDie(const char* filename, const std::string& contents) {
     exit(1);
   }
 }
+  
+void SmallerOutputOrDie(const std::string& source,const std::string& destination) {
+  if(destination.size() >= source.size()) {
+    fprintf(stderr, "The output image turned out to be larger or equal to the input image.Skipping writing to file");
+    exit(1);
+  }
+}
 
 void TerminateHandler() {
   fprintf(stderr, "Unhandled exception. Most likely insufficient memory available.\n"
@@ -320,7 +327,10 @@ int main(int argc, char** argv) {
       return 1;
     }
   }
-
+  
+  
+  SmallerOutputOrDie(in_data,out_data);
   WriteFileOrDie(argv[opt_idx + 1], out_data);
+  
   return 0;
 }
